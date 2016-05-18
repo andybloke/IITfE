@@ -13,9 +13,9 @@ void printPositionInField(int markerX, int markerY)
 	char flat = 205;
 
 	//print grid
-	for (int y = 0; y <= 30; ++y)
+	for (int y = 0; y <= 21; ++y)
 	{
-		for (int x = 0; x <= 50; ++x)
+		for (int x = 0; x <= 21; ++x)
 		{
 			//top line
 			if (y == 0)
@@ -25,75 +25,71 @@ void printPositionInField(int markerX, int markerY)
 					cout << tlcorner;
 				}
 
-				if (x != 0 && x != 50)
+				if (x != 0 && x != 21)
 				{
 					cout << flat;
 				}
 
-				if (x == 50)
+				if (x == 21)
 				{
 					cout << trcorner << endl;
 				}
 			}
 			
 			//middle
-			if (y > 1 && y < 30)
+			if (y > 1 && y < 21)
 			{
 				if (x == 0)
 				{
 					cout << side;
 				}
 
-				if (x != 0 && x != 50)
+				if (x != 0 && x != 21)
 				{
-					cout << ' ';
+					if (x == markerX && y == markerY)
+					{
+						cout << "X";
+					}
+					
+					else
+					{
+						cout << ' ';
+					}
+					
 				}
 
-				if (x == 50)
+				if (x == 21)
 				{
 					cout << side << endl;
 				}
 			}
 
 			//bottom
-			if (y == 30)
+			if (y == 21)
 			{
 				if (x == 0)
 				{
 					cout << blcorner;
 				}
 
-				if (x != 0 && x != 50)
+				if (x != 0 && x != 21)
 				{
 					cout << flat;
 				}
 
-				if (x == 50)
+				if (x == 21)
 				{
 					cout << brcorner << endl;
 				}
 			}
-
-
-		}
-		
-		//if (y < 50, x)
+		}	
 	}
-
-	/*//build topline
-	const string middle(48, flat);
-	const string topline = tlcorner + middle + trcorner;
-
-	//build middle line
-	const string spaces(48, ' ');
-	const string middleline = side + spaces + side;
-
-	//build bottomline
-	const string bottomline = blcorner + middle + brcorner; */
-
-
-
 }
 
-//bool checkCollision(int markerX, int markerY)
-
+bool checkCollision(int markerX, int markerY)
+{
+	if ((markerX <= 0 || markerX >= 21) || (markerY <= 0 || markerY >= 21))
+		return true;
+	else
+		return false;
+}

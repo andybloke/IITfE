@@ -3,6 +3,6 @@
 
 void printPositionInField(int markerX, int markerY);
 
-//bool checkCollision(int markerX, int markerY);
+bool checkCollision(int markerX, int markerY);
 
 #endif
