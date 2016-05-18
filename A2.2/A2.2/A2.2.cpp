@@ -1,4 +1,5 @@
 #include "feld.h"
+#include <cstdlib>
 // Einstiegspunkt des Programms
 
 
@@ -17,8 +18,8 @@ int main()
 		printPositionInField(markerX, markerY);
 		// Prüfe ob die Markierung mit dem Rand kollidiert,
 		// wenn ja brechen wir die Schleife ab
-		if (checkCollision(markerX, markerY))
-			break;
+		//if (checkCollision(markerX, markerY))
+			//break;
 		// Verschiebe den Marker in eine beliebige Richtung
 		markerX += rand() % 5 - 2;
 		markerY += rand() % 5 - 2;
