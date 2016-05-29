@@ -132,9 +132,8 @@ void checkNumbers(vector<int> userNumbers, vector<int> gameNumbers, const int MA
 	}
 }
 
-bool newGame(vector<int>* p_userNumbers)
+bool newGame(vector<int>* p_userNumbers, const int MAX_NUM)
 {
-	const int MAX_NUM = 6;
 	*p_userNumbers = getInput(MAX_NUM);
 	if (checkForCopy(*p_userNumbers) == true)
 	{
@@ -149,9 +148,8 @@ bool newGame(vector<int>* p_userNumbers)
 	return true;
 }
 
-bool oldNumbers(vector<int>* p_userNumbers)
+bool oldNumbers(vector<int>* p_userNumbers, const int MAX_NUM)
 {
-	const int MAX_NUM = 6;
 	vector<int> gameNumbers = generate(MAX_NUM);
 	printUserNumbers(*p_userNumbers);
 	printGameNumbers(gameNumbers);
@@ -159,7 +157,7 @@ bool oldNumbers(vector<int>* p_userNumbers)
 	return true;
 }
 
-bool askRestart(vector<int>* p_userNumbers)
+bool askRestart(vector<int>* p_userNumbers, const int MAX_NUM)
 {
 	cout << "Drucken Sie:\n 1 - nochmal mit der gleichen Zahlen zu spielen \n 2 - nochmal mit neuen Zahlen zu spielen \n 3 - Quit \n";
 	int choice = 0;
@@ -169,30 +167,30 @@ bool askRestart(vector<int>* p_userNumbers)
 	{
 	case ('1') :
 		system("CLS");
-		if (oldNumbers(p_userNumbers) == false)
+		if (oldNumbers(p_userNumbers, MAX_NUM) == false)
 			return false;
 		break;
 	case ('2') :
 		system("CLS");
 		vector<int>;
-		if (newGame(p_userNumbers) == false)
+		if (newGame(p_userNumbers, MAX_NUM) == false)
 			return false;
 		break;
 	case ('3') :
 		return true;
 		break;
 	}
-	askRestart(p_userNumbers);
+	askRestart(p_userNumbers, MAX_NUM);
 	return true;
 }
 
 int main()
 {
 	vector<int> userNumbers;
-
-	if (newGame(&userNumbers) == false)
+	const int MAX_NUM = 6;
+	if (newGame(&userNumbers, MAX_NUM) == false)
 		return -1;
-	if (askRestart(&userNumbers) == false)
+	if (askRestart(&userNumbers, MAX_NUM) == false)
 		return -1;
 	system("PAUSE");
 	return 0;
