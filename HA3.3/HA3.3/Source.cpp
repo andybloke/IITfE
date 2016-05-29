@@ -10,10 +10,7 @@ const int MAX_NUM = 6; //set global constant for # of numbers to input & generat
 
 bool testInputRange(int input)
 {
-	if (input < 1 || input > 49)
-		return false;
-	else
-		return true;
+	return (input > 0 && input < 50);
 }
 
 vector<int> getInput()
