@@ -6,6 +6,8 @@
 
 using namespace std;
 
+const int MAX_NUM = 6; //set global constant for # of numbers to input & generate
+
 bool testInputRange(int input)
 {
 	if (input < 1 || input > 49)
@@ -14,7 +16,7 @@ bool testInputRange(int input)
 		return true;
 }
 
-vector<int> getInput(const int MAX_NUM)
+vector<int> getInput()
 {
 	vector<int> userNumbers;
 	int input;
@@ -59,9 +61,8 @@ bool checkForCopy(vector<int> userNumbers)
 	return false;
 }
 
-vector<int> generate(const int MAX_NUM)
+vector<int> generate()
 {
-	srand(time(0)); //seed random number generator
 	vector<int> gameNumbers;
 	for (int i = 0; i < MAX_NUM; ++i)
 	{
@@ -94,7 +95,7 @@ void printGameNumbers(vector<int> gameNumbers)
 	cout << endl;
 }
 
-void checkNumbers(vector<int> userNumbers, vector<int> gameNumbers, const int MAX_NUM)
+void checkNumbers(vector<int> userNumbers, vector<int> gameNumbers)
 {
 	cout << "\n \n";
 	vector<int> correctNumbers;
@@ -132,32 +133,32 @@ void checkNumbers(vector<int> userNumbers, vector<int> gameNumbers, const int MA
 	}
 }
 
-bool newGame(vector<int>* p_userNumbers, const int MAX_NUM)
+bool newGame(vector<int>* p_userNumbers)
 {
-	*p_userNumbers = getInput(MAX_NUM);
+	*p_userNumbers = getInput();
 	if (checkForCopy(*p_userNumbers) == true)
 	{
 		cout << "FEHLER: Jeder Zahl darf nur ein Mal eingegeben sein" << '\n';
 		system("PAUSE");
 		return false;
 	}
-	vector<int> gameNumbers = generate(MAX_NUM);
+	vector<int> gameNumbers = generate();
 	printUserNumbers(*p_userNumbers);
 	printGameNumbers(gameNumbers);
-	checkNumbers(*p_userNumbers, gameNumbers, MAX_NUM);
+	checkNumbers(*p_userNumbers, gameNumbers);
 	return true;
 }
 
-bool oldNumbers(vector<int>* p_userNumbers, const int MAX_NUM)
+bool oldNumbers(vector<int>* p_userNumbers)
 {
-	vector<int> gameNumbers = generate(MAX_NUM);
+	vector<int> gameNumbers = generate();
 	printUserNumbers(*p_userNumbers);
 	printGameNumbers(gameNumbers);
-	checkNumbers(*p_userNumbers, gameNumbers, MAX_NUM);
+	checkNumbers(*p_userNumbers, gameNumbers);
 	return true;
 }
 
-bool askRestart(vector<int>* p_userNumbers, const int MAX_NUM)
+bool askRestart(vector<int>* p_userNumbers)
 {
 	cout << "Drucken Sie:\n 1 - nochmal mit der gleichen Zahlen zu spielen \n 2 - nochmal mit neuen Zahlen zu spielen \n 3 - Quit \n";
 	int choice = 0;
@@ -167,30 +168,30 @@ bool askRestart(vector<int>* p_userNumbers, const int MAX_NUM)
 	{
 	case ('1') :
 		system("CLS");
-		if (oldNumbers(p_userNumbers, MAX_NUM) == false)
+		if (oldNumbers(p_userNumbers) == false)
 			return false;
 		break;
 	case ('2') :
 		system("CLS");
 		vector<int>;
-		if (newGame(p_userNumbers, MAX_NUM) == false)
+		if (newGame(p_userNumbers) == false)
 			return false;
 		break;
 	case ('3') :
 		return true;
 		break;
 	}
-	askRestart(p_userNumbers, MAX_NUM);
+	askRestart(p_userNumbers);
 	return true;
 }
 
 int main()
 {
+	srand(time(0)); //seed random number generator
 	vector<int> userNumbers;
-	const int MAX_NUM = 6;
-	if (newGame(&userNumbers, MAX_NUM) == false)
+	if (newGame(&userNumbers) == false)
 		return -1;
-	if (askRestart(&userNumbers, MAX_NUM) == false)
+	if (askRestart(&userNumbers) == false)
 		return -1;
 	system("PAUSE");
 	return 0;
