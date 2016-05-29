@@ -2,6 +2,7 @@
 #include <math.h>
 #include <vector>
 #include <time.h>
+#include <conio.h>
 
 using namespace std;
 
@@ -95,7 +96,7 @@ void printGameNumbers(vector<int> gameNumbers)
 
 void checkNumbers(vector<int> userNumbers, vector<int> gameNumbers, const int MAX_NUM)
 {
-	cout << '\n\n';
+	cout << "\n \n";
 	vector<int> correctNumbers;
 	int count = 0;
 	for (int i = 0; i < MAX_NUM; ++i)
@@ -111,31 +112,89 @@ void checkNumbers(vector<int> userNumbers, vector<int> gameNumbers, const int MA
 	}
 
 	cout << "Sie haben " << count << " Zahlen richtig getippt.\n";
-	if (count > 0)
+	if (count > 1)
 	{
 		cout << "Sie sind:\n";
 		for (int i = 0; i < count; ++i)
 		{
 			cout << correctNumbers[i] << ' ';
 		}
+		cout << endl;
 	}
+	else if (count == 1)
+	{
+		cout << "Sie sind:\n";
+		for (int i = 0; i < count; ++i)
+		{
+			cout << correctNumbers[i] << ' ';
+		}
+		cout << endl;
+	}
+}
+
+bool newGame(vector<int>* p_userNumbers)
+{
+	const int MAX_NUM = 6;
+	*p_userNumbers = getInput(MAX_NUM);
+	if (checkForCopy(*p_userNumbers) == true)
+	{
+		cout << "FEHLER: Jeder Zahl darf nur ein Mal eingegeben sein" << '\n';
+		system("PAUSE");
+		return false;
+	}
+	vector<int> gameNumbers = generate(MAX_NUM);
+	printUserNumbers(*p_userNumbers);
+	printGameNumbers(gameNumbers);
+	checkNumbers(*p_userNumbers, gameNumbers, MAX_NUM);
+	return true;
+}
+
+bool oldNumbers(vector<int>* p_userNumbers)
+{
+	const int MAX_NUM = 6;
+	vector<int> gameNumbers = generate(MAX_NUM);
+	printUserNumbers(*p_userNumbers);
+	printGameNumbers(gameNumbers);
+	checkNumbers(*p_userNumbers, gameNumbers, MAX_NUM);
+	return true;
+}
+
+bool askRestart(vector<int>* p_userNumbers)
+{
+	cout << "Drucken Sie:\n 1 - nochmal mit der gleichen Zahlen zu spielen \n 2 - nochmal mit neuen Zahlen zu spielen \n 3 - Quit \n";
+	int choice = 0;
+	choice = _getch();
+	//cin >> choice;
+	//cin.get(int);
+	switch (choice)
+	{
+	case ('1') :
+		system("CLS");
+		if (oldNumbers(p_userNumbers) == false)
+			return false;
+		break;
+	case ('2') :
+		system("CLS");
+		vector<int>;
+		if (newGame(p_userNumbers) == false)
+			return false;
+		break;
+	case ('3') :
+		return true;
+		break;
+	}
+	askRestart(p_userNumbers);
+	return true;
 }
 
 int main()
 {
-	const int MAX_NUM = 6;
-	vector<int> userNumbers = getInput(MAX_NUM);
-	if (checkForCopy(userNumbers) == true)
-	{
-		cout << "FEHLER: Jeder Zahl darf nur ein Mal eingegeben sein" << '\n';
-		system("PAUSE");
-		return -1;
-	}
-	vector<int> gameNumbers = generate(MAX_NUM);
-	printUserNumbers(userNumbers);
-	printGameNumbers(gameNumbers);
-	checkNumbers(userNumbers, gameNumbers, MAX_NUM);
+	vector<int> userNumbers;
 
+	if (newGame(&userNumbers) == false)
+		return -1;
+	if (askRestart(&userNumbers) == false)
+		return -1;
 	system("PAUSE");
 	return 0;
 }
