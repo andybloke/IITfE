@@ -93,6 +93,34 @@ void printGameNumbers(vector<int> gameNumbers)
 	cout << endl;
 }
 
+void checkNumbers(vector<int> userNumbers, vector<int> gameNumbers, const int MAX_NUM)
+{
+	cout << '\n\n';
+	vector<int> correctNumbers;
+	int count = 0;
+	for (int i = 0; i < MAX_NUM; ++i)
+	{
+		for (int x = 0; x < MAX_NUM; ++x)
+		{
+			if (userNumbers[i] == gameNumbers[x])
+			{
+				correctNumbers.push_back(userNumbers[i]);
+				count++;
+			}
+		}
+	}
+
+	cout << "Sie haben " << count << " Zahlen richtig getippt.\n";
+	if (count > 0)
+	{
+		cout << "Sie sind:\n";
+		for (int i = 0; i < count; ++i)
+		{
+			cout << correctNumbers[i] << ' ';
+		}
+	}
+}
+
 int main()
 {
 	const int MAX_NUM = 6;
@@ -106,7 +134,7 @@ int main()
 	vector<int> gameNumbers = generate(MAX_NUM);
 	printUserNumbers(userNumbers);
 	printGameNumbers(gameNumbers);
-
+	checkNumbers(userNumbers, gameNumbers, MAX_NUM);
 
 	system("PAUSE");
 	return 0;
