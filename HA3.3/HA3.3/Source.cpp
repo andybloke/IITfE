@@ -165,7 +165,6 @@ bool askRestart(vector<int>* p_userNumbers)
 	int choice = 0;
 	choice = _getch();
 	//cin >> choice;
-	//cin.get(int);
 	switch (choice)
 	{
 	case ('1') :
