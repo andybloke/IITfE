@@ -1,6 +1,7 @@
 #include <iostream>
 #include <math.h>
 #include <vector>
+#include <time.h>
 
 using namespace std;
 
@@ -12,13 +13,36 @@ bool testInputRange(int input)
 		return true;
 }
 
+vector<int> getInput(const int MAX_NUM)
+{
+	vector<int> userNumbers;
+	int input;
+	for (int i = 0; i < MAX_NUM; ++i)
+	{
+		cout << "Bitte geben Sie Ihre " << i + 1 << "te Zahl ein." << '\n' << "-->";
+		cin >> input;
+		cout << '\n';
+		while ( testInputRange(input) == false || cin.fail() )
+		{
+			cout << "Bitte geben Sie eine Zahl zwichen 1 und 49 ein" << '\n' << "-->";
+			cin.clear();
+			cin.ignore(256, '\n');
+			cin >> input;
+			cout << '\n';
+		} 
+				
+		userNumbers.push_back(input);
+	}
+	return userNumbers;
+}
+
 bool checkForCopy(vector<int> userNumbers)
 {
-	for (int i = 0; i < userNumbers.size(); ++i)
+	for (unsigned int i = 0; i < userNumbers.size(); ++i)
 	{
 		int control = userNumbers[i];
 		int count = 0;
-		for (int x = 0; x < userNumbers.size(); ++x)
+		for (unsigned int x = 0; x < userNumbers.size(); ++x)
 		{
 			if (control == userNumbers[x])
 				count++;
@@ -34,36 +58,56 @@ bool checkForCopy(vector<int> userNumbers)
 	return false;
 }
 
-vector<int> getInput()
+vector<int> generate(const int MAX_NUM)
 {
-	const int MAX_NUM = 6;
-	vector<int> userNumbers;
-	int input;
+	srand(time(0)); //seed random number generator
+	vector<int> gameNumbers;
 	for (int i = 0; i < MAX_NUM; ++i)
 	{
-		cout << "Bitte geben Sie Ihre " << i + 1 << "te Zahl ein." << '\n' << "-->";
-		cin >> input;
-		cout << '\n';
-		while (testInputRange(input) == false)
-		{
-			cout << "Bitte geben Sie eine Zahl zwichen 1 und 49 ein" << '\n' << "-->";
-			cin.clear();
-			cin >> input;
-			cout << '\n';
-		} 
-				
-		userNumbers.push_back(input);
+		gameNumbers.push_back(rand() % 48 + 1);
 	}
-	return userNumbers;
+	return gameNumbers;
+}
+
+void printUserNumbers(vector<int> userNumbers)
+{
+	cout << "Deine Zahlen sind:" << '\n';
+
+	for (unsigned int i = 0; i < userNumbers.size(); ++i)
+	{
+		cout << userNumbers[i] << ' ';
+	}
+
+	cout << endl;
+}
+
+void printGameNumbers(vector<int> gameNumbers)
+{
+	cout << "Die gezogene Zahlen sind:" << '\n';
+
+	for (unsigned int i = 0; i < gameNumbers.size(); ++i)
+	{
+		cout << gameNumbers[i] << ' ';
+	}
+
+	cout << endl;
 }
 
 int main()
 {
-	vector<int> userNumbers = getInput();
+	const int MAX_NUM = 6;
+	vector<int> userNumbers = getInput(MAX_NUM);
 	if (checkForCopy(userNumbers) == true)
 	{
 		cout << "FEHLER: Jeder Zahl darf nur ein Mal eingegeben sein" << '\n';
 		system("PAUSE");
 		return -1;
 	}
+	vector<int> gameNumbers = generate(MAX_NUM);
+	printUserNumbers(userNumbers);
+	printGameNumbers(gameNumbers);
+
+
+	system("PAUSE");
+	return 0;
 }
