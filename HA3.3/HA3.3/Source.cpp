@@ -1,19 +1,20 @@
 #include <iostream>
-#include <math.h>
+#include <math.h> //rand
 #include <vector>
-#include <time.h>
-#include <conio.h>
+#include <time.h> //get time for srand seed
 
 using namespace std;
 
 const int MAX_NUM = 6; //set global constant for # of numbers to input & generate
 
-bool testInputRange(int input)
+const int HIGHEST = 49 //global constant for number range
+
+bool testInputRange(int input) //prufe. dass eingabe innerhalb erlaubte bereich liegt
 {
-	return (input > 0 && input < 50);
+	return (input > 0 && input < HIGHEST + 1);
 }
 
-vector<int> getInput()
+vector<int> getInput() //nimm benutzer zahlen
 {
 	vector<int> userNumbers;
 	int input;
@@ -22,34 +23,34 @@ vector<int> getInput()
 		cout << "Bitte geben Sie Ihre " << i + 1 << "te Zahl ein." << '\n' << "-->";
 		cin >> input;
 		cout << '\n';
-		while ( testInputRange(input) == false || cin.fail() )
+		while ( testInputRange(input) == false || cin.fail() ) //prufe eingabe
 		{
-			cout << "Bitte geben Sie eine Zahl zwichen 1 und 49 ein" << '\n' << "-->";
+			cout << "Bitte geben Sie eine Zahl zwichen 1 und " << HIGHEST << " ein" << '\n' << "-->";
 			cin.clear();
-			cin.ignore(256, '\n');
+			cin.ignore(256, '\n'); //lösche cin puffer
 			cin >> input;
 			cout << '\n';
 		} 
 				
-		userNumbers.push_back(input);
+		userNumbers.push_back(input); //stell eingabe in vector
 	}
 	return userNumbers;
 }
 
-bool checkForCopy(vector<int> userNumbers)
+bool checkForCopy(vector<int> userNumbers) //prufe, dass jede eingabe kommt nur ein Mal vor
 {
-	for (unsigned int i = 0; i < userNumbers.size(); ++i)
+	for (unsigned int i = 0; i < MAX_NUM; ++i)
 	{
 		int control = userNumbers[i];
 		int count = 0;
-		for (unsigned int x = 0; x < userNumbers.size(); ++x)
+		for (unsigned int x = 0; x < MAX_NUM; ++x)
 		{
 			if (control == userNumbers[x])
 				count++;
 			else
 				continue;
 		}
-		if (count > 1)
+		if (count > 1) //falls ein zahl kommt mehr Mal vor
 			return true;
 		else
 			continue;
@@ -58,7 +59,7 @@ bool checkForCopy(vector<int> userNumbers)
 	return false;
 }
 
-vector<int> generate()
+vector<int> generate() //zieh zufallige Zahlen
 {
 	vector<int> gameNumbers;
 	for (int i = 0; i < MAX_NUM; ++i)
@@ -68,11 +69,11 @@ vector<int> generate()
 	return gameNumbers;
 }
 
-void printUserNumbers(vector<int> userNumbers)
+void printUserNumbers(vector<int> userNumbers) //zeig eingegebene Zahlen
 {
 	cout << "Deine Zahlen sind:" << '\n';
 
-	for (unsigned int i = 0; i < userNumbers.size(); ++i)
+	for (unsigned int i = 0; i < MAX_NUM; ++i)
 	{
 		cout << userNumbers[i] << ' ';
 	}
@@ -80,11 +81,11 @@ void printUserNumbers(vector<int> userNumbers)
 	cout << endl;
 }
 
-void printGameNumbers(vector<int> gameNumbers)
+void printGameNumbers(vector<int> gameNumbers) //zeig gezogene Zahlen
 {
 	cout << "Die gezogene Zahlen sind:" << '\n';
 
-	for (unsigned int i = 0; i < gameNumbers.size(); ++i)
+	for (unsigned int i = 0; i < MAX_NUM; ++i)
 	{
 		cout << gameNumbers[i] << ' ';
 	}
@@ -92,7 +93,7 @@ void printGameNumbers(vector<int> gameNumbers)
 	cout << endl;
 }
 
-void checkNumbers(vector<int> userNumbers, vector<int> gameNumbers)
+void checkNumbers(vector<int> userNumbers, vector<int> gameNumbers) //prufe wie viel und welche zahlen passen
 {
 	cout << "\n \n";
 	vector<int> correctNumbers;
@@ -103,7 +104,7 @@ void checkNumbers(vector<int> userNumbers, vector<int> gameNumbers)
 		{
 			if (userNumbers[i] == gameNumbers[x])
 			{
-				correctNumbers.push_back(userNumbers[i]);
+				correctNumbers.push_back(userNumbers[i]); //fuhle vector mit.die richtig getippten Zahlen
 				count++;
 			}
 		}
@@ -121,7 +122,7 @@ void checkNumbers(vector<int> userNumbers, vector<int> gameNumbers)
 	}
 	else if (count == 1)
 	{
-		cout << "Sie sind:\n";
+		cout << "Es ist:\n";
 		for (int i = 0; i < count; ++i)
 		{
 			cout << correctNumbers[i] << ' ';
@@ -159,8 +160,7 @@ bool askRestart(vector<int>* p_userNumbers)
 {
 	cout << "Drucken Sie:\n 1 - nochmal mit der gleichen Zahlen zu spielen \n 2 - nochmal mit neuen Zahlen zu spielen \n 3 - Quit \n";
 	int choice = 0;
-	choice = _getch();
-	//cin >> choice;
+	cin >> choice;
 	switch (choice)
 	{
 	case ('1') :
