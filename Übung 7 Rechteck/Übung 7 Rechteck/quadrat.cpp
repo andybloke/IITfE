@@ -4,14 +4,7 @@
 
 using namespace std;
 
-Rechteck::Rechteck(int laenge, int breite)
-{
-	cout << "Rechteck mit laenge " << laenge << " und breite " << breite << " wurde erstellt\n" << endl;
-	this->m_laenge = laenge;
-	this->m_breite = breite;
-}
-
-void Rechteck::setToOne()
+Rechteck::Rechteck() //default constructor
 {
 	this->m_breite = 1;
 	this->m_laenge = 1;
@@ -29,4 +22,8 @@ void Rechteck::getDiagonal()
 	cout << "The length of the diagonal is: " << diag << endl;
 }
 
-
+void Rechteck::setSize(int laenge, int breite)
+{
+	this->m_breite = breite;
+	this->m_laenge = laenge;
+}

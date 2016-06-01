@@ -3,13 +3,15 @@
 
 #include <iostream>
 
-class Rechteck {
-private:
+class Rechteck
+{
+private: //define member variables
 	int m_laenge;
 	int m_breite;
 
-public:
-	Rechteck(int laenge, int breite);
+public: //define member functions
+	Rechteck();
+	void setSize(int laenge, int breite);
 	void setToOne();
 	void isQuadrat();
 	void getDiagonal();
