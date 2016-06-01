@@ -1,44 +1,42 @@
 #include <iostream>
-#include <math.h> 
+#include <math.h>
 #include <vector>
-#include <time.h> //get time for srand seed
+#include <time.h> //Zeitpunkt für srand seed
 
 using namespace std;
 
-const int MAX_NUM = 6; //global constant for # of numbers to input & generate
+const int MAX_NUM = 6; //Global Konstante fuer Anzahl der einzugeben Zahlen
+const int HIGHEST = 49; //globale Konstante für Zahlenbereich
 
-const int HIGHEST = 49; //global constant for number range
-
-bool testInputRange(int input) //prufe. dass eingabe innerhalb erlaubte bereich liegt
+bool testInputRange(int input) //pruefe, dass eingabe innerhalb erlaubtem bereich liegt
 {
 	return (input > 0 && input < HIGHEST + 1);
 }
 
-vector<int> getInput() //nimm benutzer zahlen
+vector<int> getInput() //Nimm Benutzer Zahlen
 {
 	vector<int> userNumbers;
-	cout << "Lotto Spiel!\n Bitte geben Sie " << MAX_NUM << " Zahlen zwichen 1 und " << HIGHEST << " ein!\n Jeder Zahl darf naturlich nur ein Mal vorkommen!\n \n";
+	cout << "Lotto Spiel!\n Bitte geben Sie " << MAX_NUM << " Zahlen zwischen 1 und " << HIGHEST << " ein!\n Jede Zahl darf nat\201rlich nur ein Mal vorkommen!\n \n";
 	int input;
 	for (int i = 0; i < MAX_NUM; ++i)
 	{
 		cout << "Bitte geben Sie Ihre " << i + 1 << "te Zahl ein." << '\n' << "-->";
 		cin >> input;
 		cout << '\n';
-		while ( testInputRange(input) == false || cin.fail() ) //prufe eingabe
+		while (testInputRange(input) == false || cin.fail()) //pruefe eingabe
 		{
 			cout << "Bitte geben Sie eine Zahl zwichen 1 und " << HIGHEST << " ein" << '\n' << "-->";
 			cin.clear();
 			cin.ignore(256, '\n'); //lösche cin puffer
 			cin >> input;
 			cout << '\n';
-		} 
-				
-		userNumbers.push_back(input); //stell eingabe in vector
+		}
+		userNumbers.push_back(input); //Stelle Eingabe in Vector
 	}
 	return userNumbers;
 }
 
-bool checkForCopy(vector<int> userNumbers) //prufe, dass jede eingabe kommt nur ein Mal vor
+bool checkForCopy(vector<int> userNumbers) //prufe, dass jede Eingabe nur einmal vorkommt
 {
 	for (unsigned int i = 0; i < MAX_NUM; ++i)
 	{
@@ -51,50 +49,64 @@ bool checkForCopy(vector<int> userNumbers) //prufe, dass jede eingabe kommt nur 
 			else
 				continue;
 		}
-		if (count > 1) //falls ein zahl kommt mehr Mal vor
+		if (count > 1) //falls eine Zahl mehrfach vorkommt
 			return true;
 		else
 			continue;
 	}
-
 	return false;
 }
 
-vector<int> generate() //zieh zufallige Zahlen
+vector<int> generate() //ziehe zufallige Zahlen
 {
 	vector<int> gameNumbers;
-	for (int i = 0; i < MAX_NUM; ++i)
+	while (true)
 	{
-		gameNumbers.push_back(rand() % (HIGHEST - 1) + 1); //zufallige Zahl zwichen 0 & (HIGHEST -1) + 1 gibt Zahl zwichen 1 und HIGHEST
+		gameNumbers.clear();
+		for (int i = 0; i < MAX_NUM; ++i)
+		{
+			gameNumbers.push_back(rand() % (HIGHEST - 1) + 1); //zufallige Zahl zwischen 0 & (HIGHEST -1) + 1, gibt Zahl zwichen 1 und HIGHEST
+		}
+		int count = 0;
+		for (int i = 0; i < MAX_NUM; ++i) //prufe, das jeder Zahl nur ein Mal vorkommt
+		{
+			int control = gameNumbers[i];
+			for (int x = 0; x < MAX_NUM; ++x)
+			{
+				if (control == gameNumbers[x])
+					count++;
+				else
+					continue;
+			}
+		}
+		if (count > MAX_NUM) //falls eine Zahl mehrfach vorkommt
+			continue;
+		else
+			break;
 	}
 	return gameNumbers;
 }
 
-void printUserNumbers(vector<int> userNumbers) //druck eingegebene Zahlen auf Bildschirm
+void printUserNumbers(vector<int> userNumbers) //drucke eingegebene Zahlen auf Bildschirm
 {
 	cout << "Deine Zahlen sind:" << '\n';
-
 	for (unsigned int i = 0; i < MAX_NUM; ++i)
 	{
 		cout << userNumbers[i] << ' ';
 	}
-
 	cout << endl;
 }
-
-void printGameNumbers(vector<int> gameNumbers) //druck gezogene Zahlen auf Bildschirm
+void printGameNumbers(vector<int> gameNumbers) //drucke gezogene Zahlen auf Bildschirm
 {
 	cout << "Die gezogene Zahlen sind:" << '\n';
-
 	for (unsigned int i = 0; i < MAX_NUM; ++i)
 	{
 		cout << gameNumbers[i] << ' ';
 	}
-
 	cout << endl;
 }
 
-void checkNumbers(vector<int> userNumbers, vector<int> gameNumbers) //prufe wie viel und welche zahlen passen
+void checkNumbers(vector<int> userNumbers, vector<int> gameNumbers) //pruefe wie viel und welche zahlen passen
 {
 	cout << "\n \n"; //macht platz (optisch)
 	vector<int> correctNumbers;
@@ -105,13 +117,12 @@ void checkNumbers(vector<int> userNumbers, vector<int> gameNumbers) //prufe wie 
 		{
 			if (userNumbers[i] == gameNumbers[x])
 			{
-				correctNumbers.push_back(userNumbers[i]); //fuhle vector mit die richtig getippten Zahlen
+				correctNumbers.push_back(userNumbers[i]); //fuelle vector mit den richtig getippten Zahlen
 				count++;
 			}
 		}
 	}
-
-	 //zeige wie viel und welche Zahlen richtig getippt war
+	//zeige wie viel und welche Zahlen richtig getippt war
 	if (count > 1)
 	{
 		cout << "Sie haben " << count << " Zahlen richtig getippt.\n";
@@ -132,21 +143,30 @@ void checkNumbers(vector<int> userNumbers, vector<int> gameNumbers) //prufe wie 
 		}
 		cout << endl;
 	}
+	else if (count == 0)
+	{
+		cout << "Sie haben keine Zahl richtig getippt.\n";
+		for (int i = 0; i < count; ++i)
+		{
+			cout << correctNumbers[i] << ' ';
+		}
+		cout << endl;
+	}
 }
 
 bool newGame(vector<int>* p_userNumbers) //spiel mit neuer Zahlen
 {
-	*p_userNumbers = getInput(); //fuhlt userNumbers mit eingabe
-	if (checkForCopy(*p_userNumbers) == true) //pruft userNumbers
+	*p_userNumbers = getInput(); //fuellt userNumbers mit eingabe
+	if (checkForCopy(*p_userNumbers) == true) //prueft userNumbers
 	{
-		cout << "FEHLER: Jeder Zahl darf nur ein Mal eingegeben sein" << '\n';
+		cout << "FEHLER: Jede Zahl darf nur ein Mal eingegeben werden" << '\n';
 		system("PAUSE");
 		return false;
 	}
-	vector<int> gameNumbers = generate(); // gerneriert zufallige Zahlen
+	vector<int> gameNumbers = generate(); // generiert zufaellige Zahlen
 	printUserNumbers(*p_userNumbers); //druckt alles auf Bildschirm
 	printGameNumbers(gameNumbers);
-	checkNumbers(*p_userNumbers, gameNumbers); //prufe nach richtig getippte Zahlen
+	checkNumbers(*p_userNumbers, gameNumbers); //pruefe nach richtig getippten Zahlen
 	return true;
 }
 
@@ -161,24 +181,33 @@ bool oldNumbers(vector<int>* p_userNumbers) //spiel mit alten Zahlen (ohne einga
 
 bool askRestart(vector<int>* p_userNumbers) //frag ob Spieler wieder spielen will
 {
-	cout << "Drucken Sie:\n 1 - nochmal mit der gleichen Zahlen zu spielen \n 2 - nochmal mit neuen Zahlen zu spielen \n 3 - Quit \n";
+	cout << "Drucken Sie:\n 1 - um nochmal mit den gleichen Zahlen zu spielen \n 2 - um nochmal mit neuen Zahlen zu spielen \n 3 - Quit \n";
+	cout << ": ";
 	int choice = 0;
 	cin >> choice;
+	if (cin.fail())
+	{
+		cin.clear();
+		cin.ignore(256, '\n');
+		askRestart(p_userNumbers);
+	}
 	switch (choice)
 	{
-	case ('1') :
+	case (1):
 		system("CLS");
 		if (oldNumbers(p_userNumbers) == false)
 			return false;
 		break;
-	case ('2') :
+	case (2):
 		system("CLS");
 		vector<int>;
 		if (newGame(p_userNumbers) == false)
 			return false;
 		break;
-	case ('3') :
+	case (3):
 		return true;
+		break;
+	default:
 		break;
 	}
 	askRestart(p_userNumbers); //rekursion
