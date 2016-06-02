@@ -1,5 +1,6 @@
 #include <iostream>
 #include <math.h>
+#include "Deutsch.h"
 
 using namespace std;
 
@@ -24,12 +25,13 @@ void convertToLongitude(int* p_deg, int* p_min, int* p_sec, double distance)
 
 int main()
 {
-	cout << "Bitte geben Sie die Distance vom Aequator in km ein: ";
+	cout << "Bitte geben Sie die Distance vom " << Umlaut::Ä << "quator in km ein: ";
 	double distance(0.0);
 	cin >> distance;
 	int deg(0), min(0), sec(0);
 	convertToLongitude(&deg, &min, &sec, distance);
-	cout << "\n \n" << distance << "km in Breitengrad ist: " << deg << " degrees " << min << " minuten " << sec << " sekunden. \n";
+	char degsign = 176;
+	cout << "\n \n" << distance << "km in Breitengrad ist: " << deg << "\xF8 " << min << "\' " << sec << "\". \n \n";
 	system("PAUSE");
 	return 0;
 }
