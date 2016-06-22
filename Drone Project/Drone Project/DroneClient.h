@@ -54,7 +54,7 @@ public:
   // cleanup
   static void destroyAllInstances();
 
-private:
+protected:
   
   void callbackRecieveNavdata(const boost::system::error_code& error, size_t bytes_recvd);
   void callbackRecieveCtrldata(const boost::system::error_code& error, size_t bytes_recvd);
